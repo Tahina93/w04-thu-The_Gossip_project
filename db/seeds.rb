@@ -5,10 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'faker'
+
 City.destroy_all
 10.times do
   City.create(
-    city_name: Faker::Games::Fallout.location
+    name: Faker::Games::Fallout.location,
     zip_code: Faker::Address.zip
   )
 end
@@ -23,8 +25,8 @@ User.destroy_all
     last_name: Faker::Movies::StarWars.planet,
     description: Faker::TvShows::BojackHorseman.quote,
     email: Faker::Internet.email,
-    age: rand(18..99)
-    city: rand(first_city_id..last_city_id)
+    age: rand(18..99),
+    city: City.find(rand(first_city_id..last_city_id))
   )
 end
 
@@ -34,9 +36,9 @@ last_user_id = User.last.id
 Gossip.destroy_all
 20.times do
   Gossip.create(
-    title: Faker::Book.title
-    content: Faker::Movie.quote + ". " Faker::Movie::StarWars.quote
-    user: rand(first_user_id..last_user_id)
+    title: Faker::Book.title,
+    content: Faker::Movie.quote + ". " + Faker::Movies::StarWars.quote,
+    user: User.find(rand(first_user_id..last_user_id))
   )
 end
 
@@ -52,5 +54,15 @@ first_tag_id = Tag.first.id
 last_tag_id = Tag.last.id
 
 TagGossipLink.destroy_all
-Gossip.each do |gossip|
-  TagGossipLink.create(gossip: )
+Gossip.all.each do |gossip|
+  puts gossip
+  puts tag = Tag.find(rand(first_tag_id..last_tag_id))
+  TagGossipLink.create(gossip: gossip, tag: tag)
+end
+
+rand(0..20).times do
+  TagGossipLink.create(
+    gossip: Gossip.find(rand(first_gossip_id..last_gossip_id)),
+    tag: Tag.find(rand(first_tag_id..last_tag_id))
+  )
+end
