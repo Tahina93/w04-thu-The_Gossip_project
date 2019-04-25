@@ -1,0 +1,8 @@
+c = City.create(name:"Lyon")
+u = User.create(first_name:"Noel", last_name:"Tamèrre", description:"tout est dans le nom fdp", email:"noel.fdp@tamère.com", age:999, city:c)
+u2 = User.create(first_name:"Tahina", last_name:"Tonpèrre", description:"tatata", email:"tata.fdp@tamère.com", age:9, city:c)
+u3 = User.create(first_name:"Cedric", last_name:"Lemaudit", description:"cecece", email:"cece.fdp@tamère.com", age:88, city:c)
+
+ pm = PrivateMessage.create(content:"voici le contenu", sender:u)
+ l = RecipientToPmLink.create(recipient:u2, received_message:pm)
+ l2 = RecipientToPmLink.create(recipient:u3, received_message:pm)

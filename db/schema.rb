@@ -30,13 +30,19 @@ ActiveRecord::Schema.define(version: 2019_04_25_133051) do
 
   create_table "private_messages", force: :cascade do |t|
     t.text "content"
+    t.integer "sender_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["sender_id"], name: "index_private_messages_on_sender_id"
   end
 
   create_table "recipient_to_pm_links", force: :cascade do |t|
+    t.integer "received_message_id"
+    t.integer "recipient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["received_message_id"], name: "index_recipient_to_pm_links_on_received_message_id"
+    t.index ["recipient_id"], name: "index_recipient_to_pm_links_on_recipient_id"
   end
 
   create_table "tag_gossip_links", force: :cascade do |t|
